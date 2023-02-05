@@ -1,0 +1,1 @@
+export const getElementById = document.getElementById.bind(document);
