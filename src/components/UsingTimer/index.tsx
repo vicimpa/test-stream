@@ -1,24 +1,45 @@
 import { Timer } from "components/Timer";
+import { useEvent } from "hooks/useEvent";
 import { FDate } from "lib/FDate";
-import { useCallback, useState } from "react";
+import { MouseEventHandler, useCallback, useState } from "react";
+
+const values = ['10s', '30s', '1m', '5m', '30m', '1h', '2h', '6h', '1D', '7D', '1M'];
 
 export const UsingTimer = () => {
   const [time, setTime] = useState(new FDate());
 
-  const updateTime = useCallback((cb: (v: FDate) => any) => {
-    setTime(v => (cb(v), new FDate(v)));
+  const append = useCallback<MouseEventHandler>(
+    (e) => {
+      const { target } = e;
+      if (target instanceof HTMLButtonElement) {
+        const { innerText } = target;
+        setTime(v => new FDate(+v).append(innerText));
+      }
+    },
+    []
+  );
+
+  const reset = useCallback(() => {
+    setTime(new FDate());
   }, []);
 
   return (
-    <>
+    <div onClick={append}>
       <p>Need Time: {time.toString()}</p>
       <p><Timer {...{ time }} /></p>
-      <button onClick={updateTime.bind(null, v => v.s += 10)}>+10s</button>
-      <button onClick={updateTime.bind(null, v => v.s += 30)}>+30s</button>
-      <button onClick={updateTime.bind(null, v => v.m += 1)}>+1m</button>
-      <button onClick={updateTime.bind(null, v => v.m += 5)}>+5m</button>
-      <button onClick={updateTime.bind(null, v => v.m += 30)}>+30m</button>
-      <button onClick={updateTime.bind(null, v => v.h += 1)}>+1h</button>
-    </>
+      <p>
+        <button onClick={reset}>Now</button>
+      </p>
+      <p>
+        {values.map(e => (
+          <button key={e}>+{e}</button>
+        ))}
+      </p>
+      <p>
+        {values.map(e => (
+          <button key={e}>-{e}</button>
+        ))}
+      </p>
+    </div>
   );
 };

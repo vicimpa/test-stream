@@ -1,4 +1,5 @@
-import { useStream } from "lib/useStream";
+import { useStream } from "hooks/useStream";
+import { RDate } from "lib/RDate";
 import { FC } from "react";
 
 export const Timer: FC<{ time: Date; }> = ({ time }) => {
@@ -15,7 +16,7 @@ export const Timer: FC<{ time: Date; }> = ({ time }) => {
 
   return (
     <>
-      Time: {deltatime}
+      Remaining: {new RDate(deltatime).getMinimum()}
     </>
   );
 };
