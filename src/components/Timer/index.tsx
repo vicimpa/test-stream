@@ -16,7 +16,7 @@ export const Timer: FC<{ time: Date; }> = ({ time }) => {
 
   return (
     <>
-      Remaining: {new RDate(deltatime).getMinimum()}
+      Remaining: {deltatime}
     </>
   );
 };

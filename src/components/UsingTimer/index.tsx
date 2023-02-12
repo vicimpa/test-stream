@@ -1,5 +1,4 @@
 import { Timer } from "components/Timer";
-import { useEvent } from "hooks/useEvent";
 import { FDate } from "lib/FDate";
 import { MouseEventHandler, useCallback, useState } from "react";
 
