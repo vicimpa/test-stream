@@ -1,8 +1,15 @@
 import { useStream } from "hooks/useStream";
-import { RDate } from "lib/RDate";
-import { FC } from "react";
+import { FC, useLayoutEffect, useState } from "react";
 
-export const Timer: FC<{ time: Date; }> = ({ time }) => {
+interface ITimerProps {
+  time: Date;
+  onChange?: (runned: boolean) => any;
+}
+
+export const Timer: FC<ITimerProps> = ({
+  time,
+  onChange = () => { }
+}) => {
   const deltatime = useStream(() => {
     const delta = +time - Date.now();
 
@@ -12,7 +19,18 @@ export const Timer: FC<{ time: Date; }> = ({ time }) => {
     return delta;
   }, [+time]);
 
-  console.log('Rerender');
+  const [runned, setRunned] = useState(deltatime > 0);
+
+  useLayoutEffect(() => {
+    if (deltatime > 0 && !runned)
+      setRunned(true);
+    if (deltatime == 0 && runned)
+      setRunned(false);
+  }, [deltatime]);
+
+  useLayoutEffect(() => {
+    onChange(runned);
+  }, [runned]);
 
   return (
     <>

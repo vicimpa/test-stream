@@ -24,10 +24,11 @@ export const UsingTimer = () => {
 
   return (
     <div onClick={append}>
-      <p>Need Time: {time.toString()}</p>
+      <p>Need Time is: {time.toString()}</p>
       <p><Timer {...{ time }} /></p>
+
       <p>
-        <button onClick={reset}>Now</button>
+        <button onClick={reset}>Set now</button>
       </p>
       <p>
         {values.map(e => (

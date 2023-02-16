@@ -9,6 +9,8 @@ interface IStream {
 const STREAMS = new Set<IStream>();
 
 function tick() {
+  requestAnimationFrame(tick);
+
   for (const stream of STREAMS) {
     const { preview, calcFunction, callbackChange } = stream;
     const newResult = calcFunction();
@@ -18,8 +20,6 @@ function tick() {
       stream.preview = newResult;
     }
   }
-
-  requestAnimationFrame(tick);
 }
 
 tick();
@@ -30,7 +30,7 @@ export const useStream = <T>(cf: () => T, deps: any[]) => {
   useLayoutEffect(() => {
     const stream: IStream = {
       preview: value,
-      callbackChange: res => setValue(res),
+      callbackChange: setValue,
       calcFunction: cf
     };
 
